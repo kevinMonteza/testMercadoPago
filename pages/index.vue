@@ -1,23 +1,32 @@
 <template>
   <div 
-    class="uk-flex uk-flex-middle uk-flex-center"
-    style="width: 100vw; height: 100vh"> 
-    <form 
-      action="/procesar-pago" 
-      method="POST">
-      <script
-        src="https://www.mercadopago.com.ar/integrations/v1/web-tokenize-checkout.js"
-        data-public-key="TEST-9fd40839-e9d6-40ab-a797-7947239b4c6d"
-        data-transaction-amount="10.00"/>
-    </form>
-    <div
-      class="uk-flex uk-flex-around uk-flex-middle" 
-      style="width: 30%">
-      <button 
-        class="uk-button"
-        uk-toggle="target: #my-id" 
-        type="button">Pago 1</button>
+    class=""
+    style="width: 100vw; height: 100vh;position:relative"> 
+    <div style="position: absolute; top: 50%; right:30%">
+      <h1>Tipos de pago Mercado pago</h1>
+      <div class="uk-flex uk-flex-middle uk-flex-center">
+        <form 
+          action="/procesar-pago" 
+          method="POST">
+          <script
+            src="https://www.mercadopago.com.ar/integrations/v1/web-tokenize-checkout.js"
+            data-public-key="TEST-9fd40839-e9d6-40ab-a797-7947239b4c6d"
+            data-transaction-amount="10.00"/>
+        </form>
+      
+        <div
+          class="uk-flex uk-flex-around uk-flex-middle" 
+          style="width: 30%">
+          <button 
+            class="uk-button"
+            uk-toggle="target: #my-id" 
+            type="button">Pago 1</button>
+        </div>
+      </div>
+
     </div>
+    
+    <!-- pagos modal -->
     <div 
       id="my-id" 
       uk-modal>
@@ -55,6 +64,7 @@
                 autocomplete="off"
                 type="text" 
                 placeholder="Número de Tarjeta"
+                class="uk-input"
               >
             </div>
           </div>
@@ -86,7 +96,8 @@
                 type="text"
                 data-checkout="docNumber"
                 placeholder="Número de Documento"
-                value=""
+                value="71501780"
+                class="uk-input"
               >
             </div>
           </div>
@@ -109,6 +120,7 @@
                 autocomplete="off"
                 type="text" 
                 placeholder="Número de Tarjeta"
+                class="uk-input"
               >
             </div>
           </div>
@@ -123,6 +135,7 @@
                 type="text"
                 value="APRO"
                 data-checkout="cardholderName"
+                class="uk-input"
                 placeholder="Titular de la Tarjeta">
             </div>
           </div>
@@ -134,7 +147,7 @@
             <div class="form-input">
               <input
                 id="cardExpirationMonth"
-                class="date-input"
+                class="date-input uk-input"
                 type="text"
                 data-checkout="cardExpirationMonth"
                 value="11"
@@ -151,7 +164,7 @@
               <span>/</span>
               <input
                 id="cardExpirationYear"
-                class="date-input"
+                class="date-input uk-input"
                 type="text"
                 data-checkout="cardExpirationYear"
                 value="2025"
@@ -184,6 +197,7 @@
                 onDrag="return false"
                 onDrop="return false"
                 autocomplete="off"
+                class="uk-input"
                 placeholder="CVV/CVC">
             </div>
           </div>
@@ -216,6 +230,10 @@
 </template>
 
 <script>
+var UIkit
+if (process.browser) {
+  UIkit = require('uikit')
+}
 // SDK de Mercado Pago
 const mercadopago = require ('mercadopago');
 export default {
@@ -239,6 +257,7 @@ async mounted(){
 };
  const response = await mercadopago.preferences.create(preference)
  global.id = response.body.id;
+ console.log("mounted -> esponse.body.id", response.body.id)
 },
  async created () {
     
@@ -263,6 +282,12 @@ methods:{
         this.$mercadopago.createToken(form, (status, response) => {
           if (status === 200 || status === 201) {
             console.log("createToken -> response.id", response.id)
+            UIkit.notification({
+                message: 'Token generado con éxito' + response.id,
+                status: 'primary',
+                pos: 'top-right',
+                timeout: 3000
+            });
             resolve(response.id)
           } else {
             let message = this.$mercadopago.helpers.getMessage('card-token-creation', response)

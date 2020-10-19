@@ -4,7 +4,19 @@ const pkg = require("./package");
 
 module.exports = {
   mode: "universal",
-
+  // render: {
+  //   csp: {
+  //     hashAlgorithm: 'sha256',
+  //     policies: {
+  //       'script-src': [
+  //         'https://www.google-analytics.com',
+  //         'https://www.mercadopago.com.ar'
+  //       ],
+  //       'report-uri': ['https://report.example.com/report-csp-violations']
+  //     },
+  //     addMeta: true
+  //   }
+  // },
   /*
    ** Headers of the page
    */
