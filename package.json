@@ -5,8 +5,8 @@
   "author": "team",
   "private": true,
   "engines": {
-    "node": ">=8.11.1",
-    "npm": ">=6.0.1"
+    "node": "=8.11.1",
+    "npm": "=6.0.1"
   },
   "scripts": {
     "dev": "cross-env NODE_ENV=development HOST=0.0.0.0 PORT=3000 nuxt",
