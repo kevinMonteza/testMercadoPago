@@ -9,8 +9,8 @@
           action="https://www.mi-sitio.com/procesar-pago" 
           method="POST">
           <script
+            :data-public-key="token"
             src="https://www.mercadopago.cl/integrations/v1/web-tokenize-checkout.js"
-            data-public-key="TEST-9fd40839-e9d6-40ab-a797-7947239b4c6d"
             data-transaction-amount="100.00"/>
         </form>
       
@@ -242,9 +242,10 @@ data: ()=> ({
   global: {
     id: ''
   },
+  token:""
 }),
 async mounted(){
- 
+  this.token = process.env.token
 },
  async created () {
      // Agrega credenciales
