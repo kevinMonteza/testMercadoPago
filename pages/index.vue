@@ -16,7 +16,7 @@
       
         <div
           class="uk-flex uk-flex-around uk-flex-middle" 
-          style="width: 30%">
+          style="width: 40%">
           <button 
             class="uk-button"
             uk-toggle="target: #my-id" 
