@@ -4,17 +4,14 @@
   "description": "My superb Nuxt.js project",
   "author": "team",
   "private": true,
-  "engines": {
-    "node": "=8.11.1",
-    "npm": "=6.0.1"
-  },
   "scripts": {
     "dev": "cross-env NODE_ENV=development HOST=0.0.0.0 PORT=3000 nuxt",
     "build": "cross-env NODE_ENV=production PORT=3500 nuxt build",
     "start": "cross-env NODE_ENV=production PORT=3500 nuxt start",
     "generate": "cross-env NODE_ENV=production PORT=3500 nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore . --fix",
-    "precommit": "npm run lint"
+    "precommit": "npm run lint",
+    "spa": "nuxt --spa"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.0.0",

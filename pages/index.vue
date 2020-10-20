@@ -6,12 +6,12 @@
       <h1>Tipos de pago Mercado pago</h1>
       <div class="uk-flex uk-flex-middle uk-flex-center">
         <form 
-          action="/procesar-pago" 
+          action="https://www.mi-sitio.com/procesar-pago" 
           method="POST">
           <script
-            src="https://www.mercadopago.com.ar/integrations/v1/web-tokenize-checkout.js"
+            src="https://www.mercadopago.cl/integrations/v1/web-tokenize-checkout.js"
             data-public-key="TEST-9fd40839-e9d6-40ab-a797-7947239b4c6d"
-            data-transaction-amount="10.00"/>
+            data-transaction-amount="100.00"/>
         </form>
       
         <div
@@ -231,36 +231,43 @@
 
 <script>
 var UIkit
+const mercadopago = require ('mercadopago');
 if (process.browser) {
   UIkit = require('uikit')
 }
 // SDK de Mercado Pago
-const mercadopago = require ('mercadopago');
 export default {
 data: ()=> ({
-  documentTypes: []
+  documentTypes: [],
+  global: {
+    id: ''
+  },
 }),
 async mounted(){
-  // Agrega credenciales
-  console.log("mounted -> mercadopago", mercadopago)
-  mercadopago.configure({
-    access_token: process.env.token
-  });
-  let preference = {
-  items: [
-    {
-      title: 'Mi producto',
-      unit_price: 100,
-      quantity: 1,
-    }
-  ]
-};
- const response = await mercadopago.preferences.create(preference)
- global.id = response.body.id;
- console.log("mounted -> esponse.body.id", response.body.id)
+ 
 },
  async created () {
-    
+     // Agrega credenciales
+      console.log("mounted -> mercadopago", mercadopago)
+      mercadopago.configure({
+        access_token: process.env.token
+      });
+      let preference = {
+      items: [
+        {
+          title: 'Mi producto',
+          unit_price: 100,
+          quantity: 1,
+        }
+      ]
+    };
+    // mercadopago.preferences.create(preference)
+    //     .then(function(response){
+    //     // Este valor reemplazará el string "<%= global.id %>" en tu HTML
+    //       this.global.id = response.body.id;
+    //     }).catch(function(error){
+    //       console.log(error);
+    //     });
     this.documentTypes = await this.getDocumentTypes()
   },
 methods:{
