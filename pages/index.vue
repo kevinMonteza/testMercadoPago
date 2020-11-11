@@ -1,41 +1,41 @@
 <template>
-  <div 
+  <div
     class=""
-    style="width: 100vw; height: 100vh;position:relative"> 
+    style="width: 100vw; height: 100vh;position:relative">
     <div style="position: absolute; top: 50%; right:30%">
       <h1>Tipos de pago Mercado pago</h1>
       <div class="uk-flex uk-flex-middle uk-flex-center">
-        <form 
-          action="https://www.mi-sitio.com/procesar-pago" 
+        <form
+          action="https://www.mi-sitio.com/procesar-pago"
           method="POST">
           <script
-            :data-public-key="token"
+            :data-public-key="public_key"
             src="https://www.mercadopago.cl/integrations/v1/web-tokenize-checkout.js"
             data-transaction-amount="100.00"/>
         </form>
-      
+
         <div
-          class="uk-flex uk-flex-around uk-flex-middle" 
+          class="uk-flex uk-flex-around uk-flex-middle"
           style="width: 40%">
-          <button 
+          <button
             class="uk-button"
-            uk-toggle="target: #my-id" 
+            uk-toggle="target: #my-id"
             type="button">Pago 1</button>
         </div>
       </div>
 
     </div>
-    
+
     <!-- pagos modal -->
-    <div 
-      id="my-id" 
+    <div
+      id="my-id"
       uk-modal>
-      <div 
+      <div
         class="uk-modal-dialog uk-modal-body ">
         <div class="uk-flex uk-flex-middle uk-flex-center uk-flex-column">
           <h2 class="uk-modal-title">Formulario personalizado</h2>
-          <img 
-            src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Sky_Airline_2017.png" 
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Sky_Airline_2017.png"
             alt=""
             style="width: 140px">
         </div>
@@ -43,10 +43,10 @@
           id="form-pagar-mp"
           ref="mainform"
           style="transition: all 0.4s"
-          method="post" 
+          method="post"
           @submit.prevent="generateCardToken">
           <div class="custom-input">
-            <div 
+            <div
               class="form-label">
               E-mail
             </div>
@@ -62,23 +62,23 @@
                 onDrag="return false"
                 onDrop="return false"
                 autocomplete="off"
-                type="text" 
+                type="text"
                 placeholder="Número de Tarjeta"
                 class="uk-input"
               >
             </div>
           </div>
           <div class="custom-input">
-            <div 
+            <div
               class="form-label">
               Tipo de documento
             </div>
             <div class="form-input">
-              <select 
-                id="docType" 
+              <select
+                id="docType"
                 data-checkout="docType">
-                <option 
-                  v-for="docType in documentTypes" 
+                <option
+                  v-for="docType in documentTypes"
                   :key="docType.id">
                   {{ docType.name }}
                 </option>
@@ -86,7 +86,7 @@
             </div>
           </div>
           <div class="custom-input">
-            <div 
+            <div
               class="form-label">
               Número de Documento
             </div>
@@ -102,7 +102,7 @@
             </div>
           </div>
           <div class="custom-input">
-            <div 
+            <div
               class="form-label">
               Número de Tarjeta
             </div>
@@ -118,14 +118,14 @@
                 onDrag="return false"
                 onDrop="return false"
                 autocomplete="off"
-                type="text" 
+                type="text"
                 placeholder="Número de Tarjeta"
                 class="uk-input"
               >
             </div>
           </div>
           <div class="custom-input">
-            <div 
+            <div
               class="form-label">
               Titular de la Tarjeta
             </div>
@@ -140,7 +140,7 @@
             </div>
           </div>
           <div class="custom-input">
-            <div 
+            <div
               class="form-label">
               Fecha de expiración
             </div>
@@ -180,12 +180,12 @@
             </div>
           </div>
           <div class="custom-input">
-            <div 
+            <div
               class="form-label">
               CVV/CVC
             </div>
             <div class="form-input">
-              <input 
+              <input
                 id="securityCode"
                 type="text"
                 data-checkout="securityCode"
@@ -201,25 +201,25 @@
                 placeholder="CVV/CVC">
             </div>
           </div>
-          <input 
-            id="transactionAmount" 
-            type="hidden" 
-            name="transactionAmount" 
+          <input
+            id="transactionAmount"
+            type="hidden"
+            name="transactionAmount"
             value="100" >
-          <input 
-            id="paymentMethodId" 
-            type="hidden" 
+          <input
+            id="paymentMethodId"
+            type="hidden"
             name="paymentMethodId" >
-          <input 
-            id="description" 
-            type="hidden" 
+          <input
+            id="description"
+            type="hidden"
             name="description" >
           <div style="display:flex; margin-top: 10px">
-            <button 
-              class="uk-modal-close uk-button uk-button-default uk-button-small" 
+            <button
+              class="uk-modal-close uk-button uk-button-default uk-button-small"
               style="margin-right: 10px"
               type="button">Cancelar</button>
-            <button  
+            <button
               class="uk-button uk-button-default uk-button-small uk-button-primary"
               type="submit">Pagar</button>
           </div>
@@ -242,14 +242,16 @@ data: ()=> ({
   global: {
     id: ''
   },
-  token:""
+  token:"",
+  public_key:''
 }),
 async mounted(){
-  this.token = process.env.token
+  this.public_key = process.env.MP_PUBLIC_KEY
+  console.log("mounted -> this.token", this.MP_PUBLIC_KEY)
 },
  async created () {
      // Agrega credenciales
-      console.log("mounted -> mercadopago", mercadopago)
+     this.public_key = process.env.MP_PUBLIC_KEY
       mercadopago.configure({
         access_token: process.env.token
       });
